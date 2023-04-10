@@ -1,0 +1,44 @@
+{
+  "name": "react-bootstrap-web3-spa",
+  "version": "2.0.1",
+  "dependencies": {
+    "axios": "0.27.2",
+    "bch-message-lib": "2.2.1",
+    "bootstrap": "5.2.0",
+    "query-string": "7.1.1",
+    "react": "18.2.0",
+    "react-bootstrap": "2.4.0",
+    "react-dom": "18.2.0",
+    "react-scripts": "5.0.1",
+    "use-query-params": "1.2.3"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "lint": "standard --env mocha --fix",
+    "pub": "node deploy/publish-main.js",
+    "pub:ghp": "./deploy/publish-gh-pages.sh"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  },
+  "devDependencies": {
+    "minimal-slp-wallet": "5.8.5",
+    "standard": "17.0.0",
+    "web3.storage": "4.3.0"
+  }
+}
