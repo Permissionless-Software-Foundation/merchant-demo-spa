@@ -4,7 +4,7 @@
 
 // Global npm libraries
 import React from 'react'
-import { Container, Row, Col, Form, Button, Spinner, Image } from 'react-bootstrap'
+import { Container, Row, Col, Form, Button, Image } from 'react-bootstrap'
 import Captcha from './captcha'
 import axios from 'axios'
 import QRCode from 'qrcode.react'
@@ -30,13 +30,18 @@ class BlueWidget extends React.Component {
       // QR Code
       displayQr: false,
       qrAddr: '',
-      bchPayment: 0
+      bchPayment: 0,
+      paymentInterval: null,
+      paymentDetected: false
     }
 
     // Bind 'this' to event handlers
-    this.handleGetBalance = this.handleGetBalance.bind(this)
     this.handlePlaceOrder = this.handlePlaceOrder.bind(this)
     this.setCaptchaSolved = this.setCaptchaSolved.bind(this)
+    this.checkPayment = this.checkPayment.bind(this)
+    this.OrderForm = this.OrderForm.bind(this)
+    this.PaymentDetails = this.PaymentDetails.bind(this)
+    this.PaymentDetected = this.PaymentDetected.bind(this)
 
     // _this = this
   }
@@ -91,66 +96,19 @@ class BlueWidget extends React.Component {
           </Row>
 
           {
-            this.state.displayQr ?
-              (
-                <>
-                  <Row style={{ textAlign: 'center' }}>
-                    <Col >
-                      <h4>Payment Details</h4>
-                      <QRCode
-                        className='qr-code'
-                        value={this.state.bchAddr}
-                        size={256}
-                        includeMargin
-                        fgColor='#333'
-                      />
-                    </Col>
-                  </Row>
-                  <Row style={{ textAlign: 'center' }}>
-                    <Col>
-                      <p>{this.state.bchAddr}</p>
-                      <p>Send exactly {this.state.bchPayment} BCH</p>
-                    </Col>
-                  </Row>
-                </>
-              ) : (
-              <Row>
-                <Col className='text-break'>
-                  <Form>
-                    <Form.Group className='mb-3' controlId='contact'>
-                      <Form.Label><b>Email address</b> (or some other way for us to communicate with you):</Form.Label>
-                      <Form.Control type='text' onChange={e => this.setState({ emailAddress: e.target.value })} />
-                    </Form.Group>
-
-                    <Form.Group className='mb-3' controlId='name'>
-                      <Form.Label><b>Name</b> (for shipping):</Form.Label>
-                      <Form.Control type='text' onChange={e => this.setState({ shippingName: e.target.value })} />
-                    </Form.Group>
-
-                    <Form.Group className='mb-3' controlId='name'>
-                      <Form.Label><b>Shipping Address</b>:</Form.Label>
-                      <Form.Control as="textarea" onChange={e => this.setState({ shippingAddress: e.target.value })} />
-                    </Form.Group>
-
-                    <Form.Group className='mb-3' controlId='name'>
-                      <Form.Label><b>Quantity to Purchase</b>:</Form.Label>
-                      <Form.Control type='text' onChange={e => this.setState({ qty: e.target.value })} />
-                    </Form.Group>
-
-                    <Captcha setCaptchaSolved={this.setCaptchaSolved} />
-
-                    <p style={{color: 'red'}}>{this.state.warningMsg}</p>
-
-                    <Button variant='primary' onClick={this.handlePlaceOrder}>
-                      Submit Shipping Info
-                    </Button>
-                  </Form>
-                </Col>
-              </Row>
-              )
+            !this.state.displayQr && !this.state.paymentDetected ? 
+              <this.OrderForm /> : null
           }
 
-          
+          {
+            this.state.displayQr && !this.state.paymentDetected ? 
+              <this.PaymentDetails /> : null
+          }
+        
+          {
+            this.state.displayQr && this.state.paymentDetected ? 
+              <this.PaymentDetected /> : null
+          }
           
           <br />
           <Row>
@@ -207,38 +165,110 @@ class BlueWidget extends React.Component {
       this.setState({
         displayQr: true,
         bchAddr: response.bchAddr,
-        bchPayment: response.bchPayment
+        bchPayment: response.bchPayment,
+        paymentInterval: setInterval(this.checkPayment, 5000)
       })
+
+
     } catch(err) {
       console.error('Error in handlePlaceOrder(): ', err)
     }
   }
 
-  async handleGetBalance (event) {
+  // Check to see if payment has been detected and processed.
+  async checkPayment() {
     try {
-      const textInput = this.state.textInput
+      const request = await axios.get(`http://localhost:5020/order/payment/${this.state.bchAddr}`)
 
-      // Exit on invalid input
-      if (!textInput) return
-      if (!textInput.includes('bitcoincash:')) return
+      const hasPaid = request.data.paid
+      console.log('hasPaid: ', hasPaid)
 
-      this.setState({
-        balance: (<span>Retrieving balance... <Spinner animation='border' /></span>)
-      })
+      if(hasPaid) {
+        clearInterval(this.state.paymentInterval)
 
-      const balance = await this.state.wallet.getBalance(textInput)
-      console.log('balance: ', balance)
-
-      const bchBalance = this.state.wallet.bchjs.BitcoinCash.toBitcoinCash(balance)
-
-      this.setState({
-        balance: `Balance: ${balance} sats, ${bchBalance} BCH`
-      })
-    } catch (err) {
-      this.setState({
-        balance: (<p><b>Error</b>: {`${err.message}`}</p>)
-      })
+        this.setState({
+          paymentDetected: true,
+        })
+      }
+    } catch(err) {
+      console.error('Error in checkPayment(): ', err)
     }
+  }
+
+  OrderForm(props) {
+    return (
+      <Row>
+        <Col className='text-break'>
+          <Form>
+            <Form.Group className='mb-3' controlId='contact'>
+              <Form.Label><b>Email address</b> (or some other way for us to communicate with you):</Form.Label>
+              <Form.Control type='text' onChange={e => this.setState({ emailAddress: e.target.value })} />
+            </Form.Group>
+
+            <Form.Group className='mb-3' controlId='name'>
+              <Form.Label><b>Name</b> (for shipping):</Form.Label>
+              <Form.Control type='text' onChange={e => this.setState({ shippingName: e.target.value })} />
+            </Form.Group>
+
+            <Form.Group className='mb-3' controlId='name'>
+              <Form.Label><b>Shipping Address</b>:</Form.Label>
+              <Form.Control as="textarea" onChange={e => this.setState({ shippingAddress: e.target.value })} />
+            </Form.Group>
+
+            <Form.Group className='mb-3' controlId='name'>
+              <Form.Label><b>Quantity to Purchase</b>:</Form.Label>
+              <Form.Control type='text' onChange={e => this.setState({ qty: e.target.value })} />
+            </Form.Group>
+
+            <Captcha setCaptchaSolved={this.setCaptchaSolved} />
+
+            <p style={{color: 'red'}}>{this.state.warningMsg}</p>
+
+            <Button variant='primary' onClick={this.handlePlaceOrder}>
+              Submit Shipping Info
+            </Button>
+          </Form>
+        </Col>
+      </Row>
+    )
+  }
+
+  PaymentDetails(props) {
+    return (
+      <>
+        <Row style={{ textAlign: 'center' }}>
+          <Col >
+            <h4>Payment Details</h4>
+            <QRCode
+              className='qr-code'
+              value={this.state.bchAddr}
+              size={256}
+              includeMargin
+              fgColor='#333'
+            />
+          </Col>
+        </Row>
+        <Row style={{ textAlign: 'center' }}>
+          <Col>
+            <p>{this.state.bchAddr}</p>
+            <p>Send exactly <b>{this.state.bchPayment}</b> BCH</p>
+          </Col>
+        </Row>
+      </>
+    )
+  }
+
+  PaymentDetected(props) {
+    return (
+      <>
+        <Row style={{ textAlign: 'center' }}>
+          <Col>
+            <h4>Payment Detected!</h4>
+            <p>Payment detected! Your order will be shipped soon.</p>
+          </Col>
+        </Row>
+      </>
+    )
   }
 }
 
