@@ -23,7 +23,7 @@ class Captcha extends React.Component {
     this.handleUpdate = this.handleUpdate.bind(this)
   }
 
-  render() {
+  render () {
     return (
       <>
         <Row>
@@ -37,7 +37,7 @@ class Captcha extends React.Component {
             <ClientCaptcha
               captchaCode={code => {
                 // console.log(code)
-                this.setState({ code: code })
+                this.setState({ code })
               }}
             />
           </Col>
@@ -57,7 +57,7 @@ class Captcha extends React.Component {
     )
   }
 
-  handleUpdate(event) {
+  handleUpdate (event) {
     if (event.target.value === this.state.code) {
       this.setState({
         captchaSolves: true
