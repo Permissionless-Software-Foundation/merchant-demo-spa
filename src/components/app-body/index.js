@@ -10,10 +10,10 @@
 import React from 'react'
 
 // Local libraries
-import GetBalance from '../balance'
 import Placeholder2 from '../placeholder2'
 import Placeholder3 from '../placeholder3'
 import ServerSelectView from '../servers/select-server-view'
+import BlueWidget from '../blue-widget'
 
 function AppBody (props) {
   // Dependency injection through props
@@ -26,7 +26,7 @@ function AppBody (props) {
 
     switch (menuState) {
       case 0:
-        return (<GetBalance wallet={appData.wallet} />)
+        return (<BlueWidget wallet={appData.wallet} appData={appData} />)
       case 1:
         return (<Placeholder2 />)
       case 2:
@@ -36,7 +36,7 @@ function AppBody (props) {
       case 100:
         return (<ServerSelectView appData={appData} />)
       default:
-        return (<GetBalance wallet={appData.wallet} />)
+        return (<BlueWidget wallet={appData.wallet} appData={appData} />)
     }
   }
 
