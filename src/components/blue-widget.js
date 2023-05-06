@@ -285,6 +285,12 @@ class BlueWidget extends React.Component {
               few seconds. Once payment is detected, you'll see a success message.
               Please be patient, this can take several minutes.
             </p>
+            <p>
+              Orders that are not funded within 24 hours will be deleted. Once
+              your order has been funded, your order will be sent to the seller
+              and they will ship the product to you. If they have questions,
+              they will contact you via the email address you provided.
+            </p>
           </Col>
         </Row>
         <Row>
