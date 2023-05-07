@@ -68,6 +68,14 @@ class BlueWidget extends React.Component {
           </Row>
 
           <Row>
+            <Col style={{ textAlign: 'center' }}>
+              <br />
+              <h3><u>Price:</u> <b>$0.05 USD</b></h3>
+              <br />
+            </Col>
+          </Row>
+
+          <Row>
             <Col>
               <h4>Product Description</h4>
               <p>
@@ -78,9 +86,13 @@ class BlueWidget extends React.Component {
                 can use this application to sell your own products for Bitcoin
                 Cash (BCH).
               </p>
+              <p>
+                If you need help customizing this template for your own store,
+                you can <a href='https://fullstack.cash/consulting' target='_blank' rel='noreferrer'>hire developers here</a>.
+              </p>
             </Col>
           </Row>
-
+          <br />
           <Row>
             <Col>
               <h4>Order Instructions</h4>
