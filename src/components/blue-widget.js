@@ -12,6 +12,8 @@ import QRCode from 'qrcode.react'
 // Local libraries
 import BlueWidgetImage from '../img/blue-gear.png'
 
+const SERVER = process.env.REACT_APP_SERVER
+
 class BlueWidget extends React.Component {
   constructor (props) {
     super(props)
@@ -162,7 +164,7 @@ class BlueWidget extends React.Component {
       console.log('formData: ', formData)
 
       // Submit the form data to the server and get a QR code.
-      const request = await axios.post('http://localhost:5020/order', formData)
+      const request = await axios.post(`${SERVER}/order`, formData)
       const response = request.data
 
       console.log('Return value: ', response)
@@ -186,7 +188,7 @@ class BlueWidget extends React.Component {
         displaySpinner: true
       })
 
-      const request = await axios.get(`http://localhost:5020/order/payment/${this.state.bchAddr}`)
+      const request = await axios.get(`${SERVER}/order/payment/${this.state.bchAddr}`)
 
       const hasPaid = request.data.paid
       console.log('hasPaid: ', hasPaid)
