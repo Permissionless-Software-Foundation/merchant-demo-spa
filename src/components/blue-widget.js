@@ -12,6 +12,8 @@ import QRCode from 'qrcode.react'
 // Local libraries
 import BlueWidgetImage from '../img/blue-gear.png'
 
+const SERVER = process.env.REACT_APP_SERVER
+
 class BlueWidget extends React.Component {
   constructor (props) {
     super(props)
@@ -66,6 +68,14 @@ class BlueWidget extends React.Component {
           </Row>
 
           <Row>
+            <Col style={{ textAlign: 'center' }}>
+              <br />
+              <h3><u>Price:</u> <b>$0.05 USD</b></h3>
+              <br />
+            </Col>
+          </Row>
+
+          <Row>
             <Col>
               <h4>Product Description</h4>
               <p>
@@ -76,9 +86,13 @@ class BlueWidget extends React.Component {
                 can use this application to sell your own products for Bitcoin
                 Cash (BCH).
               </p>
+              <p>
+                If you need help customizing this template for your own store,
+                you can <a href='https://fullstack.cash/consulting' target='_blank' rel='noreferrer'>hire developers here</a>.
+              </p>
             </Col>
           </Row>
-
+          <br />
           <Row>
             <Col>
               <h4>Order Instructions</h4>
@@ -162,7 +176,7 @@ class BlueWidget extends React.Component {
       console.log('formData: ', formData)
 
       // Submit the form data to the server and get a QR code.
-      const request = await axios.post('http://localhost:5020/order', formData)
+      const request = await axios.post(`${SERVER}/order`, formData)
       const response = request.data
 
       console.log('Return value: ', response)
@@ -186,7 +200,7 @@ class BlueWidget extends React.Component {
         displaySpinner: true
       })
 
-      const request = await axios.get(`http://localhost:5020/order/payment/${this.state.bchAddr}`)
+      const request = await axios.get(`${SERVER}/order/payment/${this.state.bchAddr}`)
 
       const hasPaid = request.data.paid
       console.log('hasPaid: ', hasPaid)

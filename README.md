@@ -1,8 +1,10 @@
 # merchant-demo-spa
 
-This is a single page app (**SPA**) based on the [react-bootstrap-web3-spa template](https://github.com/Permissionless-Software-Foundation/react-bootstrap-web3-spa). This app is a template to show how to build a web ecommerce store that accepts Bitcoin Cash (BCH) for purchsing products. The app leverages the [Cash Stack](https://cashstack.info) web3 architecture, a censorship-resistant back-end for accessing the Bitcoin Cash blockchain.
+This is a single page app (**SPA**) based on the [react-bootstrap-web3-spa template](https://github.com/Permissionless-Software-Foundation/react-bootstrap-web3-spa). This app is a template for building an ecommerce store that accepts Bitcoin Cash (BCH) for purchsing products. The app leverages the [Cash Stack](https://cashstack.info) web 3 architecture, a censorship-resistant back-end for accessing the Bitcoin Cash blockchain.
 
-This app is the *front end* part of the software. It pairs with [merchant-demo-server](https://github.com/Permissionless-Software-Foundation/merchant-demo-server) REST API *back end*.
+This app is the *front end* part of the software. It pairs with [merchant-demo-server](https://github.com/Permissionless-Software-Foundation/merchant-demo-server) REST API *back end*. 
+
+If you would like to hire someone to customize this app for your store, you can [find BCH developers here](https://fullstack.cash/consulting).
 
 
 - [Live Demo on GitHub Pages](https://permissionless-software-foundation.github.io/react-bootstrap-web3-spa/)
