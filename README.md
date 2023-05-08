@@ -1,32 +1,28 @@
 # merchant-demo-spa
 
-This is a single page app (**SPA**) based on the [react-bootstrap-web3-spa template](https://github.com/Permissionless-Software-Foundation/react-bootstrap-web3-spa). This app is a template for building an ecommerce store that accepts Bitcoin Cash (BCH) for purchsing products. The app leverages the [Cash Stack](https://cashstack.info) web 3 architecture, a censorship-resistant back-end for accessing the Bitcoin Cash blockchain.
+This is a single page app (**SPA**) template for buildinga single-product ecommerce store, and selling that product for BCH. This open source template is intended for developers to fork and customize to make their own ecommerce stores. This front end app is intended to be paired with the [merchant-demo-server](https://github.com/Permissionless-Software-Foundation/merchant-demo-server) back end.
 
-This app is the *front end* part of the software. It pairs with [merchant-demo-server](https://github.com/Permissionless-Software-Foundation/merchant-demo-server) REST API *back end*. 
+- [Live Demo](https://merchant.cashstack.info/)
 
 If you would like to hire someone to customize this app for your store, you can [find BCH developers here](https://fullstack.cash/consulting).
 
-
-- [Live Demo on GitHub Pages](https://permissionless-software-foundation.github.io/react-bootstrap-web3-spa/)
-- [Live Demo on Filecoin](https://bafybeic3nuawgogcfjkxxstyqyg6dmzajvkxp55ccldipwmgiyuikhrq5y.ipfs.dweb.link/)
-
 ## Major Features
-- [react-bootstrap](https://react-bootstrap.github.io/) is used for general style and layout control.
-- An easily customized *waiting modal* component can be invoked while waiting for network calls to complete.
-- [minimal-slp-wallet](https://www.npmjs.com/package/minimal-slp-wallet) is used to access tokens and BCH on the Bitcoin Cash blockchain.
-- A 'server selection' dropdown allows the user to select from an array of redundant [web3 back end servers](https://cashstack.info).
-- This site is statically compiled, uploaded to Filecoin, and served over IPFS for censorship resistance and version control.
-- A collapsible navigation menu is used to load different views.
-- This app can be compiled into an native Android app using [react-bootstrap-web3-android](https://github.com/Permissionless-Software-Foundation/react-bootstrap-web3-android).
+- Animations make it clear to the customer when the front end is communicating with the blockchain.
+- New orders are end-to-end encrypted (**e2ee**) and sent to the merchants BCH address. [e2ee-email-notifier](https://github.com/Permissionless-Software-Foundation/e2ee-email-notifier) can then send an email to the merchant to alert them to a new order. But email is not required to receive new orders.
 
 ## Installation
 ```bash
 git clone https://github.com/Permissionless-Software-Foundation/merchant-demo-spa
 cd merchant-demo-spa
 npm install
-npm start
-npm run build
 ```
+
+- `npm start` will start the app in development mode
+- `npm run build` will build a static, production site
+
+## Configuration
+
+- Edit the [.env.production](./.env.production) file to point to your instance of [merchant-demo-server](https://github.com/Permissionless-Software-Foundation/merchant-demo-server).
 
 ## Support
 
