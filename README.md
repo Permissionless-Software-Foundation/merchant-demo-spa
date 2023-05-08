@@ -1,6 +1,6 @@
 # merchant-demo-spa
 
-This is a single page app (**SPA**) template for buildinga single-product ecommerce store, and selling that product for BCH. This open source template is intended for developers to fork and customize to make their own ecommerce stores. This front end app is intended to be paired with the [merchant-demo-server](https://github.com/Permissionless-Software-Foundation/merchant-demo-server) back end.
+This is a single page app (**SPA**) template for buildinga single-product ecommerce store, and selling that product for Bitcoin Cash (BCH). This open source template is intended for developers to fork and customize, to make their own ecommerce stores. This front end app is intended to be paired with the [merchant-demo-server](https://github.com/Permissionless-Software-Foundation/merchant-demo-server) back end.
 
 - [Live Demo](https://merchant.cashstack.info/)
 
